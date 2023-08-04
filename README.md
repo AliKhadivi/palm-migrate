@@ -1,16 +1,8 @@
 <div align="center">
 
-# ◐ &nbsp; GPT-Migrate &nbsp; ◑
+# ◐ &nbsp; Palm-Migrate &nbsp; ◑
 
 **Easily migrate your codebase from one framework or language to another.**
-
-<p>
-<a href="https://github.com/0xpayne/gpt-migrate/commits"><img alt="GitHub Last Commit" src="https://img.shields.io/github/last-commit/0xpayne/gpt-migrate" /></a>
-<a href="https://github.com/0xpayne/gpt-migrate/issues"><img alt="GitHub Issues" src="https://img.shields.io/github/issues/0xpayne/gpt-migrate" /></a>
-<a href="https://github.com/0xpayne/gpt-migrate/pulls"><img alt="GitHub Pull Requests" src="https://img.shields.io/github/issues-pr/0xpayne/gpt-migrate" /></a>
-<a href="https://github.com/0xpayne/gpt-migrate/blob/main/LICENSE"><img alt="Github License" src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
-<a href="https://github.com/0xpayne/gpt-migrate"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/0xpayne/gpt-migrate?style=social" /></a>
-</p>
 
 <br />
 
@@ -20,7 +12,7 @@ If you've ever faced the pain of migrating a codebase to a new framework or lang
 
 https://user-images.githubusercontent.com/25165841/250232917-bcc99ce8-99b7-4e3d-a653-f89e163ed825.mp4
 
-Migration is a costly, tedious, and non-trivial problem. Do not trust the current version blindly and please use responsibly. Please also be aware that costs can add up quickly as GPT-Migrate is designed to write (and potentially re-write) the entirety of a codebase.
+Migration is a costly, tedious, and non-trivial problem. Do not trust the current version blindly and please use responsibly. Please also be aware that costs can add up quickly as Palm-Migrate is designed to write (and potentially re-write) the entirety of a codebase.
 
 However, with the collective brilliance of the OSS community and the current state of LLMs, it is also a very tractable problem.
 
@@ -40,9 +32,9 @@ poetry install
 
 This will create a virtual environment and install all the necessary dependencies in that environment.
 
-2. Set your [OpenAI API key](https://platform.openai.com/account/api-keys) and install the python requirements:
+2. Set your [Palm API key](https://makersuite.google.com/app/apikey) and install the python requirements:
 
-`export OPENAI_API_KEY=<your key>`
+`export PALM_API_KEY=<your key>`
 
 `pip install -r requirements.txt`
 
@@ -50,13 +42,13 @@ This will create a virtual environment and install all the necessary dependencie
 
 `python main.py --targetlang nodejs`
 
-4. (Optional) If you'd like GPT-Migrate to validate the unit tests it creates against your app before it tests the migrated app with them, please have your existing app exposed and use the `--sourceport` flag. For executing this against the benchmark, open a separate terminal, navigate to the `benchmarks/language-pair/source` directory, and run `python app.py` after installing the requirements. It will expose on port 5000. Use this with the `--sourceport` flag.
+4. (Optional) If you'd like Palm-Migrate to validate the unit tests it creates against your app before it tests the migrated app with them, please have your existing app exposed and use the `--sourceport` flag. For executing this against the benchmark, open a separate terminal, navigate to the `benchmarks/language-pair/source` directory, and run `python app.py` after installing the requirements. It will expose on port 5000. Use this with the `--sourceport` flag.
 
 By default, this script will execute the flask-nodejs benchmark. You can specify the language, source directory, and many other things using the options guide below.
 
 ## 💡 Options
 
-You can customize the behavior of GPT-Migrate by passing the following options to the `main.py` script:
+You can customize the behavior of Palm-Migrate by passing the following options to the `main.py` script:
 
 - `--model`: The Large Language Model to be used. Default is `"gpt-4-32k"`.
 
@@ -76,7 +68,7 @@ You can customize the behavior of GPT-Migrate by passing the following options t
 
 - `--testfiles`: Comma-separated list of files that have functions to be tested. For instance, this could be an `app.py` or `main.py` file for a Python app where your REST endpoints are. Include the full relative path. Default is `"app.py"`.
 
-- `--sourceport`: (Optional) Port for testing the unit tests file against the original app. No default value. If not included, GPT-Migrate will not attempt to test the unit tests against your original app.
+- `--sourceport`: (Optional) Port for testing the unit tests file against the original app. No default value. If not included, Palm-Migrate will not attempt to test the unit tests against your original app.
 
 - `--targetport`: Port for testing the unit tests file against the migrated app. Default is `8080`.
 
@@ -92,14 +84,11 @@ python main.py --sourcedir /path/to/my-python-app --sourceentry app.py --targetd
 
 This will take the Python code in `./my-python-app`, migrate it to Node.js, and write the resulting code to `./my-nodejs-app`.
 
-#### GPT-assisted debugging
-https://user-images.githubusercontent.com/25165841/250233075-eff1a535-f40e-42e4-914c-042c69ba9195.mp4
-
 ## 🤖 How it Works
 
 For migrating a repo from `--sourcelang` to `--targetlang`...
 
-1. GPT-Migrate first creates a Docker environment for `--targetlang`, which is either passed in or assessed automatically by GPT-Migrate.
+1. Palm-Migrate first creates a Docker environment for `--targetlang`, which is either passed in or assessed automatically by Palm-Migrate.
 2. It evaluates your existing code recursively to identify 3rd-party `--sourcelang` dependencies and selects corresponding `--targetlang` dependencies.
 3. It recursively rebuilds new `--targetlang` code from your existing code starting from your designated `--sourceentry` file. This step can be started from with the `--step migrate` option.
 4. It spins up the Docker environment with the new codebase, exposing it on `--targetport` and iteratively debugging as needed.
@@ -128,7 +117,7 @@ prompt = prompt_constructor(HIERARCHY, GUIDELINES, WRITE_CODE, DEBUG_TESTFILE, S
 
 ## 📈 Performance
 
-GPT-Migrate is currently in development alpha and is not yet ready for production use. For instance, on the relatively simple benchmarks, it gets through "easy" languages like python or javascript without a hitch ~50% of the time, and cannot get through more complex languages like C++ or Rust without some human assistance.
+Palm-Migrate is currently in development alpha and is not yet ready for production use. For instance, on the relatively simple benchmarks, it gets through "easy" languages like python or javascript without a hitch ~50% of the time, and cannot get through more complex languages like C++ or Rust without some human assistance.
 
 ## ✅ Benchmarks
 
@@ -138,8 +127,6 @@ We're actively looking to build up a robust benchmark repository. If you have a 
 
 Below are improvements on the to-do list. If you'd like to knock any of these or others out, please submit a PR :)
 
-#### High urgency
-- Add logic for model input size limiting based on the window size. See issue [#2](https://github.com/0xpayne/gpt-migrate/issues/2).
 
 #### Med urgency
 - Add unit tests to the entire project for better reliability and CI/CD
@@ -154,9 +141,3 @@ Below are improvements on the to-do list. If you'd like to knock any of these or
 ## 📣 Call to Action
 
 We're looking for talented contributors. Whether you have a particular passion about a specific language or framework, want to help in creating a more robust test suite, or generally have interesting ideas on how to make this better, we'd love to have you!
-
-## 🛠 Expert-Assisted Migration
-
-Due to the inflow of requests, we've decided to create a standardized process for helping people with their migrations. If you're a company that needs help with a big migration or an expert that is willing to help with them, please visit the following website: [https://gpt-migrate.com/](https://gpt-migrate.com/)
-
-## Join the conversation on [Twitter](https://twitter.com/joshpxyne/status/1675254164165910528)!

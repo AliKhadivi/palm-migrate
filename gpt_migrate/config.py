@@ -3,7 +3,7 @@ import os
 '''
 Environment variables
 '''
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+PALM_API_KEY = os.environ.get("PALM_API_KEY")
 
 '''
 Global variables

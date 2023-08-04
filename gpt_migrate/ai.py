@@ -1,10 +1,10 @@
 from langchain.chat_models import ChatOpenAI
-from config import OPENAI_API_KEY
+from config import PALM_API_KEY
 import os
 import openai
 from utils import parse_code_string
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("PALM_API_KEY")
 
 class AI:
     def __init__(self, model="gpt-4-32k", temperature=0.1, max_tokens=10000):
