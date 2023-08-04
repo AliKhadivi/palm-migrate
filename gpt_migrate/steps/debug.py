@@ -38,7 +38,7 @@ def debug_error(error_message,relevant_files,globals):
                                                             globals=globals)
         
         # execute shell script from file_content using subprocess. Check with user using shell commands before executing.
-        if typer.confirm("GPT-Migrate wants to run this shell script to debug your application, which is also stored in gpt_migrate/debug.sh: \n\n"+shell_script_content+"\n\nWould you like to run it?"):
+        if typer.confirm("Palm-Migrate wants to run this shell script to debug your application, which is also stored in gpt_migrate/debug.sh: \n\n"+shell_script_content+"\n\nWould you like to run it?"):
             try:
                 result = subprocess.run(["bash", "gpt_migrate/debug.sh"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True)
                 print(result.stdout)
@@ -63,7 +63,7 @@ def debug_error(error_message,relevant_files,globals):
 
         identify_file_template = prompt_constructor(HIERARCHY, GUIDELINES, IDENTIFY_FILE, FILENAMES)
 
-        docker_logs = subprocess.run(["docker", "logs", "gpt-migrate"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True).stdout
+        docker_logs = subprocess.run(["docker", "logs", "palm-migrate"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True).stdout
 
         prompt = identify_file_template.format(error_message=error_message[-min(MAX_ERROR_MESSAGE_CHARACTERS, len(error_message)):],
                                                 target_directory_structure=build_directory_structure(globals.targetdir),
@@ -174,7 +174,7 @@ def require_human_intervention(error_message,relevant_files,globals):
                             success_message="",
                             globals=globals)
     
-    typer.echo(typer.style(f"GPT-Migrate is having some trouble debugging your app and requires human intervention. Below are instructions for how to fix your application.", fg=typer.colors.BLUE))
+    typer.echo(typer.style(f"Palm-Migrate is having some trouble debugging your app and requires human intervention. Below are instructions for how to fix your application.", fg=typer.colors.BLUE))
     print(instructions)
     typer.echo(typer.style(f"Once the fix is implemented, you can pick up from the testing phase using the `--step test` flag.", fg=typer.colors.BLUE))
 

@@ -10,11 +10,11 @@ from steps.debug import require_human_intervention
 def run_dockerfile(globals):
     try:
         with yaspin(text="Spinning up Docker container...", spinner="dots") as spinner:
-            result = subprocess.run(["docker", "build", "-t", "gpt-migrate", globals.targetdir], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True)
-            subprocess.run(["docker", "rm", "-f", "gpt-migrate"])
-            process = subprocess.Popen(["docker", "run", "-d", "-p", "8080:8080", "--name", "gpt-migrate", "gpt-migrate"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+            result = subprocess.run(["docker", "build", "-t", "palm-migrate", globals.targetdir], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True)
+            subprocess.run(["docker", "rm", "-f", "palm-migrate"])
+            process = subprocess.Popen(["docker", "run", "-d", "-p", "8080:8080", "--name", "palm-migrate", "palm-migrate"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
             spinner.ok("✅ ")
-        success_text = typer.style("Your Docker image is now running. GPT-Migrate will now start testing, and you can independently test as well. The application is exposed on port 8080.", fg=typer.colors.GREEN)
+        success_text = typer.style("Your Docker image is now running. Palm-Migrate will now start testing, and you can independently test as well. The application is exposed on port 8080.", fg=typer.colors.GREEN)
         typer.echo(success_text)
         return "success"
     except subprocess.CalledProcessError as e:
@@ -24,7 +24,7 @@ def run_dockerfile(globals):
         typer.echo(error_text)
 
         # have typer ask if the user would like to use AI to fix it? If so, call function fix(). if not, raise typer.Exit()
-        if typer.confirm("Would you like GPT-Migrate to try to fix this?"):
+        if typer.confirm("Would you like Palm-Migrate to try to fix this?"):
             return error_message
         else:
             dockerfile_content = ""
@@ -75,7 +75,7 @@ def validate_tests(testfile,globals):
         error_text = typer.style(f"Validating {testfile} against your existing service failed. Please take a look at the error message and try to resolve the issue. Once these are resolved, you can resume your progress with the `--step test` flag.", fg=typer.colors.RED)
         typer.echo(error_text)
 
-        if typer.confirm("Would you like GPT-Migrate to try to fix this?"):
+        if typer.confirm("Would you like Palm-Migrate to try to fix this?"):
             return error_message
         else:
             tests_content = ""
@@ -104,7 +104,7 @@ def run_test(testfile,globals):
         error_text = typer.style(f"One or more tests in {testfile} failed. Please take a look at the error message and try to resolve the issue. Once these are resolved, you can resume your progress with the `--step test` flag.", fg=typer.colors.RED)
         typer.echo(error_text)
 
-        if typer.confirm("Would you like GPT-Migrate to try to fix this?"):
+        if typer.confirm("Would you like Palm-Migrate to try to fix this?"):
             return error_message
         else:
             tests_content = ""

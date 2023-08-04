@@ -1,5 +1,5 @@
 typer
 langchain
 yaspin
-openai
+google-generativeai
 tree_sitter
