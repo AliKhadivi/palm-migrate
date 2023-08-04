@@ -20,8 +20,8 @@ def debug_error(error_message,relevant_files,globals):
     
     if "MOVE_FILES" in action_list:
 
-        if not os.path.exists(os.path.join(globals.targetdir, 'gpt_migrate')):
-            os.makedirs(os.path.join(globals.targetdir, 'gpt_migrate')) 
+        if not os.path.exists(os.path.join(globals.targetdir, 'palm_migrate')):
+            os.makedirs(os.path.join(globals.targetdir, 'palm_migrate')) 
 
         move_files_template = prompt_constructor(HIERARCHY, GUIDELINES, WRITE_CODE, MOVE_FILES, SINGLEFILE)
 
@@ -32,15 +32,15 @@ def debug_error(error_message,relevant_files,globals):
                                               guidelines=globals.guidelines)
         
         file_name, language, shell_script_content = llm_write_file(prompt,
-                                                            target_path="gpt_migrate/debug.sh",
+                                                            target_path="palm_migrate/debug.sh",
                                                             waiting_message=f"Writing shell script...",
                                                             success_message="Wrote debug.sh based on error message.",
                                                             globals=globals)
         
         # execute shell script from file_content using subprocess. Check with user using shell commands before executing.
-        if typer.confirm("Palm-Migrate wants to run this shell script to debug your application, which is also stored in gpt_migrate/debug.sh: \n\n"+shell_script_content+"\n\nWould you like to run it?"):
+        if typer.confirm("Palm-Migrate wants to run this shell script to debug your application, which is also stored in palm_migrate/debug.sh: \n\n"+shell_script_content+"\n\nWould you like to run it?"):
             try:
-                result = subprocess.run(["bash", "gpt_migrate/debug.sh"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True)
+                result = subprocess.run(["bash", "palm_migrate/debug.sh"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True)
                 print(result.stdout)
             except subprocess.CalledProcessError as e:
                 print("ERROR: ",e.output)
@@ -132,7 +132,7 @@ def debug_testfile(error_message,testfile,globals):
     
     relevant_files = construct_relevant_files([("migration_source/"+testfile, source_file_content)])
 
-    file_name = f"gpt_migrate/{testfile}.tests.py"
+    file_name = f"palm_migrate/{testfile}.tests.py"
     try:
         with open(os.path.join(globals.targetdir, file_name), 'r') as file:
             old_file_content = file.read()

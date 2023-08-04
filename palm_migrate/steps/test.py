@@ -35,9 +35,9 @@ def run_dockerfile(globals):
         
 def create_tests(testfile,globals):
 
-    # Makedir gpt_migrate in targetdir if it doesn't exist
-    if not os.path.exists(os.path.join(globals.targetdir, 'gpt_migrate')):
-        os.makedirs(os.path.join(globals.targetdir, 'gpt_migrate'))
+    # Makedir palm_migrate in targetdir if it doesn't exist
+    if not os.path.exists(os.path.join(globals.targetdir, 'palm_migrate')):
+        os.makedirs(os.path.join(globals.targetdir, 'palm_migrate'))
 
     old_file_content = ""
     with open(os.path.join(globals.sourcedir, testfile), 'r') as file:
@@ -50,9 +50,9 @@ def create_tests(testfile,globals):
                                           guidelines=globals.guidelines)
 
     _, _, file_content = llm_write_file(prompt,
-                                        target_path=f"gpt_migrate/{testfile}.tests.py",
+                                        target_path=f"palm_migrate/{testfile}.tests.py",
                                         waiting_message="Creating tests file...",
-                                        success_message=f"Created {testfile}.tests.py file in directory gpt_migrate.",
+                                        success_message=f"Created {testfile}.tests.py file in directory palm_migrate.",
                                         globals=globals)
     return f"{testfile}.tests.py"
 
@@ -60,16 +60,16 @@ def validate_tests(testfile,globals):
     try:
         with yaspin(text="Validating tests...", spinner="dots") as spinner:
             # find all instances of globals.targetport in the testfile and replace with the port number globals.sourceport
-            find_and_replace_file(os.path.join(globals.targetdir, f"gpt_migrate/{testfile}"), str(globals.targetport), str(globals.sourceport))
+            find_and_replace_file(os.path.join(globals.targetdir, f"palm_migrate/{testfile}"), str(globals.targetport), str(globals.sourceport))
             time.sleep(0.3)
-            result = subprocess.run(["python3", os.path.join(globals.targetdir,f"gpt_migrate/{testfile}")], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True, timeout=15)
+            result = subprocess.run(["python3", os.path.join(globals.targetdir,f"palm_migrate/{testfile}")], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True, timeout=15)
             spinner.ok("✅ ")
         print(result.stdout)
-        find_and_replace_file(os.path.join(globals.targetdir, f"gpt_migrate/{testfile}"), str(globals.sourceport), str(globals.targetport))
+        find_and_replace_file(os.path.join(globals.targetdir, f"palm_migrate/{testfile}"), str(globals.sourceport), str(globals.targetport))
         typer.echo(typer.style(f"Tests validated successfully on your source app.", fg=typer.colors.GREEN))
         return "success"
     except subprocess.CalledProcessError as e:
-        find_and_replace_file(os.path.join(globals.targetdir, f"gpt_migrate/{testfile}"), str(globals.sourceport), str(globals.targetport))
+        find_and_replace_file(os.path.join(globals.targetdir, f"palm_migrate/{testfile}"), str(globals.sourceport), str(globals.targetport))
         print("ERROR: ",e.output)
         error_message = e.output
         error_text = typer.style(f"Validating {testfile} against your existing service failed. Please take a look at the error message and try to resolve the issue. Once these are resolved, you can resume your progress with the `--step test` flag.", fg=typer.colors.RED)
@@ -79,19 +79,19 @@ def validate_tests(testfile,globals):
             return error_message
         else:
             tests_content = ""
-            with open(os.path.join(globals.targetdir, f"gpt_migrate/{testfile}"), 'r') as file:
+            with open(os.path.join(globals.targetdir, f"palm_migrate/{testfile}"), 'r') as file:
                 tests_content = file.read()
-            require_human_intervention(error_message,relevant_files=construct_relevant_files([(f"gpt_migrate/{testfile}", tests_content)]),globals=globals)
+            require_human_intervention(error_message,relevant_files=construct_relevant_files([(f"palm_migrate/{testfile}", tests_content)]),globals=globals)
             raise typer.Exit()
     except subprocess.TimeoutExpired as e:
-        print(f"gpt_migrate/{testfile} timed out due to an unknown error and requires debugging.")
-        return f"gpt_migrate/{testfile} timed out due to an unknown error and requires debugging."
+        print(f"palm_migrate/{testfile} timed out due to an unknown error and requires debugging.")
+        return f"palm_migrate/{testfile} timed out due to an unknown error and requires debugging."
 
 def run_test(testfile,globals):
     try:
         with yaspin(text="Running tests...", spinner="dots") as spinner:
             time.sleep(0.3)
-            result = subprocess.run(["python3", os.path.join(globals.targetdir,f"gpt_migrate/{testfile}")], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True, timeout=15)
+            result = subprocess.run(["python3", os.path.join(globals.targetdir,f"palm_migrate/{testfile}")], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, check=True, text=True, timeout=15)
             spinner.ok("✅ ")
 
         print(result.stdout)
@@ -108,14 +108,14 @@ def run_test(testfile,globals):
             return error_message
         else:
             tests_content = ""
-            with open(os.path.join(globals.targetdir, f"gpt_migrate/{testfile}"), 'r') as file:
+            with open(os.path.join(globals.targetdir, f"palm_migrate/{testfile}"), 'r') as file:
                 tests_content = file.read()
-            require_human_intervention(error_message,relevant_files=construct_relevant_files([(f"gpt_migrate/{testfile}", tests_content)]),globals=globals)
+            require_human_intervention(error_message,relevant_files=construct_relevant_files([(f"palm_migrate/{testfile}", tests_content)]),globals=globals)
             raise typer.Exit()
 
     except subprocess.TimeoutExpired as e:
-        print(f"gpt_migrate/{testfile} timed out due to an unknown error and requires debugging.")
-        return f"gpt_migrate/{testfile} timed out due to an unknown error and requires debugging."
+        print(f"palm_migrate/{testfile} timed out due to an unknown error and requires debugging.")
+        return f"palm_migrate/{testfile} timed out due to an unknown error and requires debugging."
 
 
         

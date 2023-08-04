@@ -9,7 +9,7 @@ import google.generativeai as palm
 palm.configure(api_key = os.getenv("PALM_API_KEY"))
 
 class AI:
-    def __init__(self, model="text-bison-001", temperature=0.1, max_tokens=10000):
+    def __init__(self, model="models/text-bison-001", temperature=0.1, max_tokens=10000):
         self.temperature = temperature
         self.max_tokens = max_tokens
         self.model_name = model
@@ -28,6 +28,9 @@ class AI:
         #     max_tokens=self.max_tokens,
         #     temperature=self.temperature
         # )
+        print(self.model_name)
+        print(self.temperature)
+        print(self.max_tokens)
         response = palm.generate_text(
             model=self.model_name,
             prompt=prompt,

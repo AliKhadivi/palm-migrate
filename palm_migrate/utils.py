@@ -138,7 +138,7 @@ def is_ignored(entry_path, gitignore_patterns):
     return False
 
 def build_directory_structure(path='.', indent='', is_last=True, parent_prefix='', is_root=True):
-    gitignore_patterns = read_gitignore(path) + [".gitignore", "*gpt_migrate/*"] if indent == '' else ["*gpt_migrate/*"]
+    gitignore_patterns = read_gitignore(path) + [".gitignore", "*palm_migrate/*"] if indent == '' else ["*palm_migrate/*"]
 
     base_name = os.path.basename(path)
 

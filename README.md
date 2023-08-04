@@ -18,7 +18,7 @@ However, with the collective brilliance of the OSS community and the current sta
 
 ## ⚡️ Usage
 
-1. Install Docker and ensure that it's running. It's also recommended that you use at least GPT-4, preferably text-bison-001.
+1. Install Docker and ensure that it's running. It's also recommended that you use at least GPT-4, preferably models/text-bison-001.
 
 ## 📦 Installation using Poetry
 
@@ -50,7 +50,7 @@ By default, this script will execute the flask-nodejs benchmark. You can specify
 
 You can customize the behavior of Palm-Migrate by passing the following options to the `main.py` script:
 
-- `--model`: The Large Language Model to be used. Default is `"text-bison-001"`.
+- `--model`: The Large Language Model to be used. Default is `"models/text-bison-001"`.
 
 - `--temperature`: Temperature setting for the AI model. Default is `0`.
 
